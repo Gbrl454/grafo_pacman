@@ -40,16 +40,16 @@ let posGhostY = 0;
 // Mapa do jogo representado por uma matriz
 let map = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+  [1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1],
   [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],
   [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],
-  [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+  [1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1],
   [1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1],
   [1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1],
   [1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1],
   [0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1, 1],
-  [4, 2, 2, 2, 2, 2, 2, 0, 1, 0, 0, 0, 1, 0, 2, 2, 2, 2, 2, 2, 4],
+  [5, 2, 2, 2, 2, 2, 2, 0, 1, 0, 0, 0, 1, 0, 2, 2, 2, 2, 2, 2, 5],
   [1, 1, 1, 1, 1, 2, 1, 0, 1, 0, 0, 0, 1, 0, 1, 2, 1, 1, 1, 1, 1],
   [0, 0, 0, 0, 1, 2, 1, 0, 1, 1, 1, 1, 1, 0, 1, 2, 1, 0, 0, 0, 0],
   [0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0],
@@ -60,11 +60,13 @@ let map = [
   [1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1],
   [1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1],
   [1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1],
-  [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+  [1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
-map.forEach(rows => { console.log(rows.join("")) });
+map.forEach((rows) => {
+  console.log(rows.join(""));
+});
 
 // Array com posições aleatórias para os fantasmas se movimentarem
 let randomTargetsForGhosts = [
@@ -109,23 +111,40 @@ function checkIfSpeedIncrease(entity) {
   speedChanged = entity.getSpeed();
 
   pointValue = map[entity.getMapY()][entity.getMapX()];
-  console.log(">>>>>>> " + pointValue);
+  // console.log(">>>>>>> " + pointValue);
 
-//   switch (Math.abs(pointValue)) {
-//       case 2:
-//           console.log("0 ou 2");
-//           entity.speed = speedNormal;
-//           break
-//       case 3: console.log("TA NO 3");
-//           entity.speed = (entity instanceof Ghost) ? speedGhost * 0.75 : speedNormal * 0.5;
-//           break;
-//       case 4: console.log("TA NO 4");
-//           entity.speed = (entity instanceof Ghost) ? speedGhost * 1.15 : speedNormal / 5 * 1.05;
-//           break;
-//       default:
-//           console.log(">>>>>>> " + pointValue);
-//           break;
-//   }
+  // switch (Math.abs(pointValue)) {
+  //     case 2:
+  //         console.log("0 ou 2");
+  //         entity.speed = speedNormal;
+  //         break
+  //     case 3: console.log("TA NO 3");
+  //         entity.speed = (entity instanceof Ghost) ? speedGhost * 0.75 : speedNormal * 0.5;
+  //         break;
+  //     case 5: console.log("TA NO 5");
+  //         entity.speed = (entity instanceof Ghost) ? speedGhost * 1.15 : speedNormal / 5 * 1.05;
+  //         break;
+  //     default:
+  //         console.log(">>>>>>> " + pointValue);
+  //         break;
+  // }
+
+  switch (Math.abs(pointValue)) {
+    case 4:
+      entity.speed = entity instanceof Ghost
+        ? speedGhost * 1.75
+        : speedNormal * 1.5;
+      break;
+    case 6:
+      entity.speed = entity instanceof Ghost
+        ? speedGhost * 2
+        : speedNormal * 1.75;
+      break;
+      case 2:
+    default:
+      entity.speed = speedNormal;
+      break;
+  }
 }
 
 function checkIfLeftTheMap(entity) {
@@ -139,8 +158,8 @@ function checkIfLeftTheMap(entity) {
           map[i][j] == pointValue
         ) {
           // TODO dar tp no mapa
-        //   entity.setMapX(i);
-        //   entity.setMapX(j);
+          //   entity.setMapX(i);
+          //   entity.setMapX(j);
         }
       }
     }
@@ -149,7 +168,7 @@ function checkIfLeftTheMap(entity) {
 
 // Função para atualizar o estado do jogo
 let update = () => {
-  if(key) {
+  if (key) {
     pacman.moveProcess();
     canvasContext.beginPath(); // Atualiza o movimento do Pacman
     checkIfSpeedIncrease(pacman);
@@ -168,8 +187,8 @@ let drawFoods = () => {
   // Loop pelos elementos do mapa
   for (let i = 0; i < map.length; i++) {
     for (let j = 0; j < map[0].length; j++) {
-      // Se o elemento do mapa for 2, desenha um alimento
-      if (map[i][j] == 2) {
+      // Se o elemento do mapa for par, desenha um alimento
+      if (map[i][j] > 0 && Math.abs(map[i][j]) % 2 == 0) {
         createRect(
           j * oneBlockSize + oneBlockSize / 3,
           i * oneBlockSize + oneBlockSize / 3,
@@ -184,34 +203,40 @@ let drawFoods = () => {
 
 // Função para desenhar o caminho do Fantasma até o Pacman
 let drawPath = () => {
-  canvasContext.strokeStyle = 'red';
+  canvasContext.strokeStyle = "red";
   canvasContext.lineWidth = 2;
   canvasContext.beginPath();
 
-    for (let pos of ghosts[0].path) {
-      switch (ghosts[0].path) {
-        case 4: // Direita
-          pos.x = (pos.x  * 20) + oneBlockSize;
-          break;
-        case 3: // Cima
-          pos.y = (pos.y  * 20) - oneBlockSize;
-          break;
-        case 2: // Esquerda
-          pos.x = (pos.x  * 20) - oneBlockSize;
-          break;
-        case 1: // Baixo
-          pos.y = (pos.y  * 20) + oneBlockSize;
-          break;
-      }
+  for (let pos of ghosts[0].path) {
+    switch (ghosts[0].path) {
+      case 4: // Direita
+        pos.x = pos.x * 20 + oneBlockSize;
+        break;
+      case 3: // Cima
+        pos.y = pos.y * 20 - oneBlockSize;
+        break;
+      case 2: // Esquerda
+        pos.x = pos.x * 20 - oneBlockSize;
+        break;
+      case 1: // Baixo
+        pos.y = pos.y * 20 + oneBlockSize;
+        break;
     }
-      canvasContext.moveTo(ghosts[0].x + oneBlockSize / 2, ghosts[0].y + oneBlockSize / 2);
-      for (let pos of ghosts[0].path) {
-          let x = pos.x * oneBlockSize + oneBlockSize / 2;
-          let y = pos.y * oneBlockSize + oneBlockSize / 2;
-          canvasContext.lineTo(x, y);
-      }
-      canvasContext.lineTo(pacman.x + oneBlockSize / 2, pacman.y + oneBlockSize / 2);
-      canvasContext.stroke();
+  }
+  canvasContext.moveTo(
+    ghosts[0].x + oneBlockSize / 2,
+    ghosts[0].y + oneBlockSize / 2
+  );
+  for (let pos of ghosts[0].path) {
+    let x = pos.x * oneBlockSize + oneBlockSize / 2;
+    let y = pos.y * oneBlockSize + oneBlockSize / 2;
+    canvasContext.lineTo(x, y);
+  }
+  canvasContext.lineTo(
+    pacman.x + oneBlockSize / 2,
+    pacman.y + oneBlockSize / 2
+  );
+  canvasContext.stroke();
 };
 
 // Função para desenhar as vidas restantes do jogador
@@ -350,8 +375,8 @@ let createGhosts = () => {
 
 // Função principal do loop de jogo
 let gameLoop = () => {
-    update(); // Atualiza o estado do jogo
-    draw(); // Desenha o estado atual do jogo no canvas
+  update(); // Atualiza o estado do jogo
+  draw(); // Desenha o estado atual do jogo no canvas
 };
 
 // Inicializa um novo Pacman e cria os fantasmas

@@ -31,9 +31,9 @@ class Pacman {
         // Método para verificar e comer a "comida" no mapa
         for (let i = 0; i < map.length; i++) { // Loop pelas linhas do mapa
             for (let j = 0; j < map[0].length; j++) { // Loop pelas colunas do mapa
-                if (map[i][j] == 2 && this.getMapX() == j && this.getMapY() == i) {
+                if (map[i][j] > 0 && (Math.abs(map[i][j]) % 2) == 0 && this.getMapX() == j && this.getMapY() == i) {
                     // Se o Pacman estiver em uma posição com "comida"
-                    map[i][j] = -2; // Remove a comida do mapa
+                    map[i][j] = -map[i][j]; // Remove a comida do mapa
                     score++; // Aumenta a pontuação
                 }
             }
@@ -77,14 +77,15 @@ class Pacman {
     }
 
     checkCollisions() {
+        const margin = .9999;
         // Verifica colisões do Pacman com as paredes do mapa
         let isCollided = false; // Inicializa como falso
         // Verifica se a posição do Pacman está sobre uma parede (valor 1) no mapa
         if (
             map[parseInt(this.y / oneBlockSize)][parseInt(this.x / oneBlockSize)] == 1 ||
-            map[parseInt(this.y / oneBlockSize + 0.9999)][parseInt(this.x / oneBlockSize)] == 1 ||
-            map[parseInt(this.y / oneBlockSize)][parseInt(this.x / oneBlockSize + 0.9999)] == 1 ||
-            map[parseInt(this.y / oneBlockSize + 0.9999)][parseInt(this.x / oneBlockSize + 0.9999)] == 1
+            map[parseInt(this.y / oneBlockSize + margin)][parseInt(this.x / oneBlockSize)] == 1 ||
+            map[parseInt(this.y / oneBlockSize)][parseInt(this.x / oneBlockSize + margin)] == 1 ||
+            map[parseInt(this.y / oneBlockSize + margin)][parseInt(this.x / oneBlockSize + margin)] == 1
         ) {
             isCollided = true; // Define como verdadeiro se houver colisão
         }
