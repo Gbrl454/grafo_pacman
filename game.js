@@ -33,6 +33,7 @@ let oneBlockSize = 20; // Tamanho de cada bloco no labirinto
 let wallSpaceWidth = oneBlockSize / 1.6; // Largura do espaço entre as paredes
 let wallOffset = (oneBlockSize - wallSpaceWidth) / 2; // Deslocamento para desenhar as paredes
 let wallInnerColor = "black"; // Cor interna das paredes
+let key = true; //Chave de liga e desliga para a Pausa do Jogo. Momento Debbug
 
 // Mapa do jogo representado por uma matriz
 let map = [
@@ -299,15 +300,17 @@ let createGhosts = () => {
 };
 
 // Função principal do loop de jogo
-let gameLoop = () => {
-    update(); // Atualiza o estado do jogo
-    draw(); // Desenha o estado atual do jogo no canvas
+let gameLoop = (key = true) => {
+    if(key) {
+        update(); // Atualiza o estado do jogo
+        draw(); // Desenha o estado atual do jogo no canvas
+    }
 };
 
 // Inicializa um novo Pacman e cria os fantasmas
 createNewPacman();
 createGhosts();
-gameLoop();
+gameLoop(true);
 
 // Inicia o loop de jogo com uma taxa de atualização de acordo com o FPS definido
 let gameInterval = setInterval(gameLoop, 1000 / fps);
@@ -324,6 +327,13 @@ window.addEventListener("keydown", (event) => {
             pacman.nextDirection = DIRECTION_RIGHT;
         } else if (k == 40 || k == 83) { // Tecla baixo ou S
             pacman.nextDirection = DIRECTION_BOTTOM;
+        } else if (k == 80) {
+            if (key) {
+                clearInterval(gameInterval);
+            } else {
+                gameInterval = setInterval(gameLoop, 1000 / fps);
+            }
+            key = !key;
         }
     }, 1);
 });
