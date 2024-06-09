@@ -26,8 +26,6 @@ class Ghost {
         this.randomTargetIndex = parseInt(Math.random() * 4); // Índice de alvo aleatório
         this.target = randomTargetsForGhosts[this.randomTargetIndex]; // Define o alvo inicial do fantasma
         this.path = []; // Inicializa o caminho do fantasma como um array vazio
-        this.listX = new Set();
-        this.listY = new Set();
         // Configura um temporizador para alterar aleatoriamente a direção do fantasma
         setInterval(() => {
             this.changeRandomDirection();

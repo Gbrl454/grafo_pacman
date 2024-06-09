@@ -183,44 +183,70 @@ let drawFoods = () => {
 
 // Função para desenhar o caminho do Fantasma até o Pacman
 let drawPath = () => {
-    // for (let i = 0; i < ghosts[0].path.length; i++) {
-    if(ghosts[0].direction == 1) {
+    let listX = [];
+    let listY = [];
+
+    for (let i = 0; i < ghosts[0].path.length; i++) {
+      listX[i] = ghosts[0].x;
+      listY[i] = ghosts[0].y;
+
+      switch (ghosts[0].path) {
+        case 4: // Direita
+          listX[i] += oneBlockSize;
+          break;
+        case 3: // Cima
+          listY[i] -= oneBlockSize;
+          break;
+        case 2: // Esquerda
+          listX[i] -= oneBlockSize;;
+          break;
+        case 1: // Baixo
+          listY[i] += oneBlockSize;
+          break;
+      }
+    }
+
+    for (let i = 0; i < ghosts[0].path.length; i++) {
+      if(ghosts[0].path[i] == 1) {
         createRect(
-            parseInt(ghosts[0].x / oneBlockSize)* oneBlockSize + oneBlockSize / 3,
-            (parseInt(ghosts[0].y / oneBlockSize) + 1) * oneBlockSize + oneBlockSize / 3,
+            parseInt(listX[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
+            (parseInt(listY[i] / oneBlockSize) + 1) * oneBlockSize + oneBlockSize / 3,
             oneBlockSize / 3,
             oneBlockSize / 3,
             "#8FCE00"
         );
-    }
-    if(ghosts[0].direction == 2) {
+      }
+      if(ghosts[0].path[i] == 2) {
         createRect(
-            parseInt(ghosts[0].x / oneBlockSize)* oneBlockSize + oneBlockSize / 3,
-            parseInt(ghosts[0].y / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
+            parseInt(listX[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
+            parseInt(listY[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
             oneBlockSize / 3,
             oneBlockSize / 3,
             "#8FCE00"
         );
-    }
-    if(ghosts[0].direction == 3) {
+      }
+      if(ghosts[0].path[i] == 3) {
         createRect(
-            parseInt(ghosts[0].x / oneBlockSize)* oneBlockSize + oneBlockSize / 3,
-            parseInt(ghosts[0].y / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
+            parseInt(listX[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
+            parseInt(listY[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
             oneBlockSize / 3,
             oneBlockSize / 3,
             "#8FCE00"
         );
-    }
-    if(ghosts[0].direction == 4) {
+      }
+      if(ghosts[0].path[i] == 4) {
         createRect(
-            (parseInt(ghosts[0].x / oneBlockSize) + 1) * oneBlockSize + oneBlockSize / 3,
-            parseInt(ghosts[0].y / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
+            (parseInt(listX[i] / oneBlockSize) + 1) * oneBlockSize + oneBlockSize / 3,
+            parseInt(listY[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
             oneBlockSize / 3,
             oneBlockSize / 3,
             "#8FCE00"
         );
+      }
     }
-    // }
+
+  console.log("Lista X : " + listX);
+  console.log("Lista Y : " + listY);
 }
 
 // Função para desenhar as vidas restantes do jogador
