@@ -183,18 +183,16 @@ let drawFoods = () => {
 
 // Função para desenhar o caminho do Fantasma até o Pacman
 let drawPath = () => {
-  for (let i = 0; i < map.length; i++) {
-    for (let j = 0; j < map[0].length; j++) {
-      createRect(
-        ghosts[i].path[i] * 20 * oneBlockSize + oneBlockSize / 3,
-        ghosts[i].path[i] * 20 * oneBlockSize + oneBlockSize / 3,
-        oneBlockSize / 3,
-        oneBlockSize / 3,
-        "#8FCE00"
-      );
-    }
-  }
-};
+    // for (let i = 0; i < ghosts[0].path.length; i++) {
+        createRect(
+            parseInt(ghosts[0].x / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
+            parseInt(ghosts[0].y / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
+            oneBlockSize / 3,
+            oneBlockSize / 3,
+            "#8FCE00"
+        );
+    // }
+}
 
 // Função para desenhar as vidas restantes do jogador
 let drawRemainingLives = () => {
@@ -237,6 +235,8 @@ let draw = () => {
   drawWalls();
   // Desenha os alimentos
   drawFoods();
+  // Desenha o caminho do BFS
+  drawPath();
   // Desenha os fantasmas
   drawGhosts();
   // Desenha o Pacman
