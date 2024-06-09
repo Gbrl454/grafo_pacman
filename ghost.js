@@ -25,6 +25,9 @@ class Ghost {
         this.range = range; // Alcance de visão do fantasma
         this.randomTargetIndex = parseInt(Math.random() * 4); // Índice de alvo aleatório
         this.target = randomTargetsForGhosts[this.randomTargetIndex]; // Define o alvo inicial do fantasma
+        this.path = []; // Inicializa o caminho do fantasma como um array vazio
+        this.listX = new Set();
+        this.listY = new Set();
         // Configura um temporizador para alterar aleatoriamente a direção do fantasma
         setInterval(() => {
             this.changeRandomDirection();
@@ -141,6 +144,18 @@ class Ghost {
             parseInt(this.target.x / oneBlockSize),
             parseInt(this.target.y / oneBlockSize)
         );
+        console.log("========================Inicio=========================");
+        console.log("Target X Caminho: ", this.target.x);
+        console.log("Target Y Caminho: ", this.target.y);
+        console.log("=======================================================");
+        console.log("Target X Inteiro: ", parseInt(this.target.x / oneBlockSize));
+        console.log("Target Y Inteiro: ", parseInt(this.target.y / oneBlockSize));
+        console.log("=======================================================");
+        console.log("Direction: ", this.direction);
+        console.log("Path: ", this.path);
+        console.log("Lista de X: ", this.listX);
+        console.log("Lista de Y: ", this.listY);
+        console.log("=========================Fim===========================");
         if (typeof this.direction == "undefined") {
             this.direction = tempDirection;
             return;
@@ -172,10 +187,7 @@ class Ghost {
 
     // Calcula a nova direção de movimento usando busca em largura
     calculateNewDirection(map, destX, destY) {
-        let mp = [];
-        for (let i = 0; i < map.length; i++) {
-            mp[i] = map[i].slice();
-        }
+        let mp = map.map(row => row.slice());
 
         let queue = [
             {
@@ -189,6 +201,7 @@ class Ghost {
         while (queue.length > 0) {
             let poped = queue.shift();
             if (poped.x == destX && poped.y == destY) {
+                this.path = poped.moves.slice();
                 return poped.moves[0];
             } else {
                 mp[poped.y][poped.x] = 1;
