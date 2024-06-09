@@ -25,7 +25,8 @@ class Ghost {
         this.range = range; // Alcance de visão do fantasma
         this.randomTargetIndex = parseInt(Math.random() * 4); // Índice de alvo aleatório
         this.target = randomTargetsForGhosts[this.randomTargetIndex]; // Define o alvo inicial do fantasma
-        this.path = [3, 3, 3, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 3, 3, 3]; // Inicializa o caminho do fantasma como um array vazio
+        this.path = []; // Inicializa o caminho do fantasma como um array vazio
+        this.pathDebug = [];
         // Configura um temporizador para alterar aleatoriamente a direção do fantasma
         setInterval(() => {
             this.changeRandomDirection();
@@ -63,6 +64,7 @@ class Ghost {
                     path.push(current);
                     current = parent[`${current.x},${current.y}`];
                 }
+                console.log("Path BFS Ghost: ", path);
                 return path.reverse();
             }
 
@@ -246,7 +248,7 @@ class Ghost {
         while (queue.length > 0) {
             let poped = queue.shift();
             if (poped.x == destX && poped.y == destY) {
-                // this.path = poped.moves.slice();
+                console.log("Path BFS Direção: ", this.pathDebug = poped.moves.slice());
                 return poped.moves[0];
             } else {
                 mp[poped.y][poped.x] = 1;
