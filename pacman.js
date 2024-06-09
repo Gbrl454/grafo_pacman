@@ -33,7 +33,7 @@ class Pacman {
             for (let j = 0; j < map[0].length; j++) { // Loop pelas colunas do mapa
                 if (map[i][j] == 2 && this.getMapX() == j && this.getMapY() == i) {
                     // Se o Pacman estiver em uma posição com "comida"
-                    map[i][j] = 3; // Remove a comida do mapa
+                    map[i][j] = -2; // Remove a comida do mapa
                     score++; // Aumenta a pontuação
                 }
             }
