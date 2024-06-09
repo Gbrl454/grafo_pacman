@@ -99,10 +99,8 @@ let restartPacmanAndGhosts = () => {
 // Função para reiniciar o estado do jogo após a colisão com algum fantasma
 let onGhostCollision = () => {
   lives--;
-  restartPacmanAndGhosts();
-  if (lives == 0) {
-    // TODO morte
-  }
+  if (lives == 0) clearInterval(gameInterval);
+  else restartPacmanAndGhosts();
 };
 
 function checkIfSpeedIncrease(entity) {
@@ -111,36 +109,17 @@ function checkIfSpeedIncrease(entity) {
   speedChanged = entity.getSpeed();
 
   pointValue = map[entity.getMapY()][entity.getMapX()];
-  // console.log(">>>>>>> " + pointValue);
-
-  // switch (Math.abs(pointValue)) {
-  //     case 2:
-  //         console.log("0 ou 2");
-  //         entity.speed = speedNormal;
-  //         break
-  //     case 3: console.log("TA NO 3");
-  //         entity.speed = (entity instanceof Ghost) ? speedGhost * 0.75 : speedNormal * 0.5;
-  //         break;
-  //     case 5: console.log("TA NO 5");
-  //         entity.speed = (entity instanceof Ghost) ? speedGhost * 1.15 : speedNormal / 5 * 1.05;
-  //         break;
-  //     default:
-  //         console.log(">>>>>>> " + pointValue);
-  //         break;
-  // }
 
   switch (Math.abs(pointValue)) {
     case 4:
-      entity.speed = entity instanceof Ghost
-        ? speedGhost * 1.75
-        : speedNormal * 1.5;
+      entity.speed =
+        entity instanceof Ghost ? speedGhost * 1.75 : speedNormal * 1.5;
       break;
     case 6:
-      entity.speed = entity instanceof Ghost
-        ? speedGhost * 2
-        : speedNormal * 1.75;
+      entity.speed =
+        entity instanceof Ghost ? speedGhost * 2 : speedNormal * 1.75;
       break;
-      case 2:
+    case 2:
     default:
       entity.speed = speedNormal;
       break;
