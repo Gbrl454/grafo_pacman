@@ -26,7 +26,7 @@ let ghostImageLocations = [
 
 // Variáveis do jogo
 let lives = 3; // Vidas iniciais do jogador
-let ghostCount = 2; // Número de fantasmas no jogo
+let ghostCount = 1; // Número de fantasmas no jogo
 let score = 0; // Pontuação do jogador
 let fps = 30; // Taxa de quadros por segundo
 let oneBlockSize = 20; // Tamanho de cada bloco no labirinto
@@ -62,7 +62,7 @@ let map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
-map.forEach(rows => { console.log(rows.join("")) });
+// map.forEach(rows => { console.log(rows.join("")) });
 
 // Array com posições aleatórias para os fantasmas se movimentarem
 let randomTargetsForGhosts = [
@@ -111,17 +111,17 @@ function checkIfSpeedIncrease(entity) {
     switch (pointValue) {
         case 0:
         case 2:
-            console.log("0 ou 2");
+            // console.log("0 ou 2");
             entity.speed = speedNormal;
             break
-        case 3: console.log("TA NO 3");
+        // case 3: console.log("TA NO 3");
             entity.speed = (entity instanceof Ghost) ? speedGhost * 0.75 : speedNormal * 0.5;
             break;
-        case 4: console.log("TA NO 4");
+        // case 4: console.log("TA NO 4");
             entity.speed = (entity instanceof Ghost) ? speedGhost * 1.15 : speedNormal / 5 * 1.05;
             break;
         default:
-            console.log(">>>>>>> " + pointValue);
+            // console.log(">>>>>>> " + pointValue);
             break;
     }
 };
@@ -160,6 +160,21 @@ let drawFoods = () => {
         }
     }
 };
+
+// Função para desenhar o caminho do Fantasma até o Pacman
+let drawPath = () => {
+    for (let i = 0; i < map.length; i++) {
+        for (let j = 0; j < map[0].length; j++) {
+            createRect(
+                ghosts[i].path[i] * 20 * oneBlockSize + oneBlockSize / 3,
+                ghosts[i].path[i] * 20 * oneBlockSize + oneBlockSize / 3,
+                oneBlockSize / 3,
+                oneBlockSize / 3,
+                "#8FCE00"
+            );
+        }
+    }
+}
 
 // Função para desenhar as vidas restantes do jogador
 let drawRemainingLives = () => {
@@ -205,7 +220,7 @@ let draw = () => {
     // Desenha as paredes do labirinto
     drawWalls();
     // Desenha os alimentos
-    drawFoods();
+    drawPath();
     // Desenha os fantasmas
     drawGhosts();
     // Desenha o Pacman
@@ -301,9 +316,14 @@ let createGhosts = () => {
 
 // Função principal do loop de jogo
 let gameLoop = (key = true) => {
+    console.log('====================================');
+    console.log("VAMOOOOOOOOOOOOOOOOOOO ", 3 * oneBlockSize + oneBlockSize / 3);
+    console.log('====================================');
     if(key) {
         update(); // Atualiza o estado do jogo
         draw(); // Desenha o estado atual do jogo no canvas
+    } else {
+        drawPath();
     }
 };
 
