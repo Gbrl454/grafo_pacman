@@ -182,6 +182,7 @@ let drawFoods = () => {
 };
 
 // Função para desenhar o caminho do Fantasma até o Pacman
+// TODO: Consertar a função, por alguma razão mesmo mapeando todo o path, ele ainda não consegue desenhar tudo dentro do jogo.
 let drawPath = () => {
     let listX = [];
     let listY = [];
@@ -292,7 +293,7 @@ let draw = () => {
   // Desenha os alimentos
   drawFoods();
   // Desenha o caminho do BFS
-  drawPath();
+  // drawPath();
   // Desenha os fantasmas
   drawGhosts();
   // Desenha o Pacman
@@ -392,7 +393,8 @@ let gameLoop = (key = true) => {
     update(); // Atualiza o estado do jogo
     draw(); // Desenha o estado atual do jogo no canvas
   } else {
-    drawPath();
+    //TODO: Testar se essa função está funcionando devidamente quando pausado o jogo.
+    // drawPath();
   }
 };
 
