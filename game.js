@@ -184,13 +184,42 @@ let drawFoods = () => {
 // Função para desenhar o caminho do Fantasma até o Pacman
 let drawPath = () => {
     // for (let i = 0; i < ghosts[0].path.length; i++) {
+    if(ghosts[0].direction == 1) {
         createRect(
-            parseInt(ghosts[0].x / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
+            parseInt(ghosts[0].x / oneBlockSize)* oneBlockSize + oneBlockSize / 3,
+            (parseInt(ghosts[0].y / oneBlockSize) + 1) * oneBlockSize + oneBlockSize / 3,
+            oneBlockSize / 3,
+            oneBlockSize / 3,
+            "#8FCE00"
+        );
+    }
+    if(ghosts[0].direction == 2) {
+        createRect(
+            parseInt(ghosts[0].x / oneBlockSize)* oneBlockSize + oneBlockSize / 3,
             parseInt(ghosts[0].y / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
             oneBlockSize / 3,
             oneBlockSize / 3,
             "#8FCE00"
         );
+    }
+    if(ghosts[0].direction == 3) {
+        createRect(
+            parseInt(ghosts[0].x / oneBlockSize)* oneBlockSize + oneBlockSize / 3,
+            parseInt(ghosts[0].y / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
+            oneBlockSize / 3,
+            oneBlockSize / 3,
+            "#8FCE00"
+        );
+    }
+    if(ghosts[0].direction == 4) {
+        createRect(
+            (parseInt(ghosts[0].x / oneBlockSize) + 1) * oneBlockSize + oneBlockSize / 3,
+            parseInt(ghosts[0].y / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
+            oneBlockSize / 3,
+            oneBlockSize / 3,
+            "#8FCE00"
+        );
+    }
     // }
 }
 

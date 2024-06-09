@@ -155,7 +155,7 @@ class Ghost {
         console.log("Path: ", this.path);
         console.log("Lista de X: ", this.listX);
         console.log("Lista de Y: ", this.listY);
-        console.log("=========================Fim===========================");
+        console.log("=========================Fim===========================" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n");
         if (typeof this.direction == "undefined") {
             this.direction = tempDirection;
             return;
