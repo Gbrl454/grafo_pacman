@@ -143,17 +143,15 @@ class Ghost {
             parseInt(this.target.y / oneBlockSize)
         );
         console.log("========================Inicio=========================");
-        console.log("Target X Caminho: ", this.target.x);
-        console.log("Target Y Caminho: ", this.target.y);
-        console.log("=======================================================");
-        console.log("Target X Inteiro: ", parseInt(this.target.x / oneBlockSize));
-        console.log("Target Y Inteiro: ", parseInt(this.target.y / oneBlockSize));
-        console.log("=======================================================");
+        // console.log("Target X Caminho: ", this.target.x);
+        // console.log("Target Y Caminho: ", this.target.y);
+        // console.log("=======================================================");
+        // console.log("Target X Inteiro: ", parseInt(this.target.x / oneBlockSize));
+        // console.log("Target Y Inteiro: ", parseInt(this.target.y / oneBlockSize));
+        // console.log("=======================================================");
         console.log("Direction: ", this.direction);
         console.log("Path: ", this.path);
-        console.log("Lista de X: ", this.listX);
-        console.log("Lista de Y: ", this.listY);
-        console.log("=========================Fim===========================" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n");
+        // console.log("=========================Fim===========================" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n");
         if (typeof this.direction == "undefined") {
             this.direction = tempDirection;
             return;

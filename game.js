@@ -247,6 +247,7 @@ let drawPath = () => {
 
   console.log("Lista X : " + listX);
   console.log("Lista Y : " + listY);
+  console.log("=========================Fim===========================" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n");
 }
 
 // Função para desenhar as vidas restantes do jogador
