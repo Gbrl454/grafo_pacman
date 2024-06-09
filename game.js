@@ -34,6 +34,8 @@ let wallSpaceWidth = oneBlockSize / 1.6; // Largura do espaço entre as paredes
 let wallOffset = (oneBlockSize - wallSpaceWidth) / 2; // Deslocamento para desenhar as paredes
 let wallInnerColor = "black"; // Cor interna das paredes
 let key = true; //Chave de liga e desliga para a Pausa do Jogo. Momento Debbug
+let posGhostX = 0;
+let posGhostY = 0;
 
 // Mapa do jogo representado por uma matriz
 let map = [
@@ -62,7 +64,7 @@ let map = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
-// map.forEach(rows => { console.log(rows.join("")) });
+map.forEach(rows => { console.log(rows.join("")) });
 
 // Array com posições aleatórias para os fantasmas se movimentarem
 let randomTargetsForGhosts = [
@@ -147,19 +149,18 @@ function checkIfLeftTheMap(entity) {
 
 // Função para atualizar o estado do jogo
 let update = () => {
-  pacman.moveProcess(); // Atualiza o movimento do Pacman
-  checkIfSpeedIncrease(pacman);
-  checkIfLeftTheMap(pacman);
-  pacman.eat(); // Verifica se o Pacman comeu algum alimento
-  updateGhosts(); // Atualiza o movimento dos fantasmas
-  // ghosts.forEach(ghost => checkIfSpeedIncrease(ghost));
-  if (pacman.checkGhostCollision(ghosts)) {
-    // Verifica se houve colisão entre o Pacman e um fantasma
-    onGhostCollision(); // Lida com a colisão entre o Pacman e um fantasma
+  if(key) {
+    pacman.moveProcess();
+    canvasContext.beginPath(); // Atualiza o movimento do Pacman
+    checkIfSpeedIncrease(pacman);
+    checkIfLeftTheMap(pacman);
+    pacman.eat(); // Verifica se o Pacman comeu algum alimento
+    updateGhosts(); // Atualiza o movimento dos fantasmas
+    if (pacman.checkGhostCollision(ghosts)) {
+      // Verifica se houve colisão entre o Pacman e um fantasma
+      onGhostCollision(); // Lida com a colisão entre o Pacman e um fantasma
+    }
   }
-
-  // console.log("Velocidade do Pacman: ", pacman.getSpeed());
-  // ghosts.forEach(ghost => { console.log("Velocidade do Fantasma: ", ghost.getSpeed()) });
 };
 
 // Função para desenhar os alimentos no mapa
@@ -182,74 +183,36 @@ let drawFoods = () => {
 };
 
 // Função para desenhar o caminho do Fantasma até o Pacman
-// TODO: Consertar a função, por alguma razão mesmo mapeando todo o path, ele ainda não consegue desenhar tudo dentro do jogo.
 let drawPath = () => {
-    let listX = [];
-    let listY = [];
+  canvasContext.strokeStyle = 'red';
+  canvasContext.lineWidth = 2;
+  canvasContext.beginPath();
 
-    for (let i = 0; i < ghosts[0].path.length; i++) {
-      listX[i] = ghosts[0].x;
-      listY[i] = ghosts[0].y;
-
+    for (let pos of ghosts[0].path) {
       switch (ghosts[0].path) {
         case 4: // Direita
-          listX[i] += oneBlockSize;
+          pos.x = (pos.x  * 20) + oneBlockSize;
           break;
         case 3: // Cima
-          listY[i] -= oneBlockSize;
+          pos.y = (pos.y  * 20) - oneBlockSize;
           break;
         case 2: // Esquerda
-          listX[i] -= oneBlockSize;;
+          pos.x = (pos.x  * 20) - oneBlockSize;
           break;
         case 1: // Baixo
-          listY[i] += oneBlockSize;
+          pos.y = (pos.y  * 20) + oneBlockSize;
           break;
       }
     }
-
-    for (let i = 0; i < ghosts[0].path.length; i++) {
-      if(ghosts[0].path[i] == 1) {
-        createRect(
-            parseInt(listX[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
-            (parseInt(listY[i] / oneBlockSize) + 1) * oneBlockSize + oneBlockSize / 3,
-            oneBlockSize / 3,
-            oneBlockSize / 3,
-            "#8FCE00"
-        );
+      canvasContext.moveTo(ghosts[0].x + oneBlockSize / 2, ghosts[0].y + oneBlockSize / 2);
+      for (let pos of ghosts[0].path) {
+          let x = pos.x * oneBlockSize + oneBlockSize / 2;
+          let y = pos.y * oneBlockSize + oneBlockSize / 2;
+          canvasContext.lineTo(x, y);
       }
-      if(ghosts[0].path[i] == 2) {
-        createRect(
-            parseInt(listX[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
-            parseInt(listY[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
-            oneBlockSize / 3,
-            oneBlockSize / 3,
-            "#8FCE00"
-        );
-      }
-      if(ghosts[0].path[i] == 3) {
-        createRect(
-            parseInt(listX[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
-            parseInt(listY[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
-            oneBlockSize / 3,
-            oneBlockSize / 3,
-            "#8FCE00"
-        );
-      }
-      if(ghosts[0].path[i] == 4) {
-        createRect(
-            (parseInt(listX[i] / oneBlockSize) + 1) * oneBlockSize + oneBlockSize / 3,
-            parseInt(listY[i] / oneBlockSize) * oneBlockSize + oneBlockSize / 3,
-            oneBlockSize / 3,
-            oneBlockSize / 3,
-            "#8FCE00"
-        );
-      }
-    }
-
-  console.log("Lista X : " + listX);
-  console.log("Lista Y : " + listY);
-  console.log("=========================Fim===========================" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n");
-}
+      canvasContext.lineTo(pacman.x + oneBlockSize / 2, pacman.y + oneBlockSize / 2);
+      canvasContext.stroke();
+};
 
 // Função para desenhar as vidas restantes do jogador
 let drawRemainingLives = () => {
@@ -292,8 +255,6 @@ let draw = () => {
   drawWalls();
   // Desenha os alimentos
   drawFoods();
-  // Desenha o caminho do BFS
-  // drawPath();
   // Desenha os fantasmas
   drawGhosts();
   // Desenha o Pacman
@@ -388,14 +349,9 @@ let createGhosts = () => {
 };
 
 // Função principal do loop de jogo
-let gameLoop = (key = true) => {
-  if (key) {
+let gameLoop = () => {
     update(); // Atualiza o estado do jogo
     draw(); // Desenha o estado atual do jogo no canvas
-  } else {
-    //TODO: Testar se essa função está funcionando devidamente quando pausado o jogo.
-    // drawPath();
-  }
 };
 
 // Inicializa um novo Pacman e cria os fantasmas
@@ -425,6 +381,7 @@ window.addEventListener("keydown", (event) => {
     } else if (k == 80) {
       if (key) {
         clearInterval(gameInterval);
+        drawPath();
       } else {
         gameInterval = setInterval(gameLoop, 1000 / fps);
       }

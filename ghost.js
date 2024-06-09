@@ -25,11 +25,65 @@ class Ghost {
         this.range = range; // Alcance de visão do fantasma
         this.randomTargetIndex = parseInt(Math.random() * 4); // Índice de alvo aleatório
         this.target = randomTargetsForGhosts[this.randomTargetIndex]; // Define o alvo inicial do fantasma
-        this.path = []; // Inicializa o caminho do fantasma como um array vazio
+        this.path = [3, 3, 3, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 3, 3, 3]; // Inicializa o caminho do fantasma como um array vazio
         // Configura um temporizador para alterar aleatoriamente a direção do fantasma
         setInterval(() => {
             this.changeRandomDirection();
         }, 10000);
+    }
+
+    updatePathToPacman(pacman) {
+        let start = { x: Math.floor(this.x / oneBlockSize), y: Math.floor(this.y / oneBlockSize) };
+        let end = { x: Math.floor(pacman.x / oneBlockSize), y: Math.floor(pacman.y / oneBlockSize) };
+        this.path = this.findPath(map, start, end);
+    }
+
+    // Função para encontrar o caminho utilizando BFS para armazenar o array de caminhos
+    findPath(map, start, end) {
+        let queue = [];
+        let visited = new Set();
+        let parent = {};
+        let directions = [
+            { x: 1, y: 0 },
+            { x: -1, y: 0 },
+            { x: 0, y: 1 },
+            { x: 0, y: -1 }
+        ];
+        
+        queue.push(start);
+        visited.add(`${start.x},${start.y}`);
+        parent[`${start.x},${start.y}`] = null;
+
+        while (queue.length > 0) {
+            let current = queue.shift();
+
+            if (current.x === end.x && current.y === end.y) {
+                let path = [];
+                while (current) {
+                    path.push(current);
+                    current = parent[`${current.x},${current.y}`];
+                }
+                return path.reverse();
+            }
+
+            for (let direction of directions) {
+                let neighbor = { x: current.x + direction.x, y: current.y + direction.y };
+                if (
+                    neighbor.x >= 0 &&
+                    neighbor.x < map[0].length &&
+                    neighbor.y >= 0 &&
+                    neighbor.y < map.length &&
+                    map[neighbor.y][neighbor.x] !== 1 &&
+                    !visited.has(`${neighbor.x},${neighbor.y}`)
+                ) {
+                    queue.push(neighbor);
+                    visited.add(`${neighbor.x},${neighbor.y}`);
+                    parent[`${neighbor.x},${neighbor.y}`] = current;
+                }
+            }
+        }
+
+        return [];
     }
 
     // Aqui inicia-se a implementação do algoritmo de BFS
@@ -142,16 +196,12 @@ class Ghost {
             parseInt(this.target.x / oneBlockSize),
             parseInt(this.target.y / oneBlockSize)
         );
-        console.log("========================Inicio=========================");
-        // console.log("Target X Caminho: ", this.target.x);
-        // console.log("Target Y Caminho: ", this.target.y);
-        // console.log("=======================================================");
-        // console.log("Target X Inteiro: ", parseInt(this.target.x / oneBlockSize));
-        // console.log("Target Y Inteiro: ", parseInt(this.target.y / oneBlockSize));
-        // console.log("=======================================================");
-        console.log("Direction: ", this.direction);
-        console.log("Path: ", this.path);
-        // console.log("=========================Fim===========================" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n");
+
+        this.findPath(
+            map,
+            parseInt(this.target.x / oneBlockSize),
+            parseInt(this.target.y / oneBlockSize)
+        );
         if (typeof this.direction == "undefined") {
             this.direction = tempDirection;
             return;
@@ -178,7 +228,6 @@ class Ghost {
         } else {
             this.moveBackwards();
         }
-        // console.log("A direção do PacMan é: ", this.direction);
     }
 
     // Calcula a nova direção de movimento usando busca em largura
@@ -197,7 +246,7 @@ class Ghost {
         while (queue.length > 0) {
             let poped = queue.shift();
             if (poped.x == destX && poped.y == destY) {
-                this.path = poped.moves.slice();
+                // this.path = poped.moves.slice();
                 return poped.moves[0];
             } else {
                 mp[poped.y][poped.x] = 1;
@@ -319,14 +368,13 @@ class Ghost {
 
 // Função para atualizar todos os fantasmas
 let updateGhosts = () => {
-    for (let i = 0; i < ghosts.length; i++) {
-        ghosts[i].moveProcess();
-    }
+    ghosts.forEach(ghost => {
+        ghost.updatePathToPacman(pacman);
+        ghost.moveProcess();
+    });
 };
 
 // Função para desenhar todos os fantasmas
 let drawGhosts = () => {
-    for (let i = 0; i < ghosts.length; i++) {
-        ghosts[i].draw();
-    }
+    ghosts.forEach(ghost => ghost.draw());
 };
