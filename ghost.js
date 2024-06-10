@@ -70,7 +70,7 @@ class Ghost {
           path.push(current);
           current = parent[`${current.x},${current.y}`];
         }
-        console.log("Path BFS Ghost: ", path);
+        // console.log("Path BFS Ghost: ", path);
         return path.reverse();
       }
 
@@ -245,10 +245,10 @@ class Ghost {
     while (queue.length > 0) {
       let poped = queue.shift();
       if (poped.x == destX && poped.y == destY) {
-        console.log(
-          "Path BFS Direção: ",
-          (this.pathDebug = poped.moves.slice())
-        );
+        // console.log(
+        //   "Path BFS Direção: ",
+        //   (this.pathDebug = poped.moves.slice())
+        // );
         return poped.moves[0];
       } else {
         mp[poped.y][poped.x] = 1;

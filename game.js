@@ -111,6 +111,14 @@ function checkIfSpeedIncrease(entity) {
   pointValue = map[entity.getMapY()][entity.getMapX()];
 
   switch (Math.abs(pointValue)) {
+    case 5:
+      for (let j = 0; j < map[entity.getMapY()].length; j++) {
+        if (map[entity.getMapY()][j] == 5 && entity.getMapX() != j) {
+          pacman.setMapX(j < entity.getMapX() ? j + 1 : j - 1);
+          break;
+        }
+      }
+      break;
     case 4:
       entity.speed =
         entity instanceof Ghost ? speedGhost * 1.75 : speedNormal * 1.5;

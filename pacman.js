@@ -123,8 +123,16 @@ class Pacman {
         return parseInt(this.x / oneBlockSize); // Calcula a posição X no mapa
     }
 
+    setMapX(x) {
+        this.x = x * oneBlockSize // Set a posição X no mapa
+    }
+
     getMapY() {
         return parseInt(this.y / oneBlockSize); // Calcula a posição Y no mapa
+    }
+
+    setMapY(y) {
+        this.y = y * oneBlockSize // Set a posição Y no mapa
     }
 
     getMapXRightSide() {
