@@ -26,7 +26,7 @@ let ghostImageLocations = [
 
 // Variáveis do jogo
 let lives = 1; // Vidas iniciais do jogador
-let ghostCount = 1; // Número de fantasmas no jogo
+let ghostCount = 4; // Número de fantasmas no jogo
 let score = 0; // Pontuação do jogador
 let fps = 30; // Taxa de quadros por segundo
 let oneBlockSize = 20; // Tamanho de cada bloco no labirinto
@@ -233,7 +233,7 @@ let update = () => {
   if (key) {
     pacman.moveProcess();
     canvasContext.beginPath(); // Atualiza o movimento do Pacman
-    checkIfSpeedIncrease(pacman);
+    // checkIfSpeedIncrease(pacman);
     checkIfLeftTheMap(pacman);
     pacman.eat(); // Verifica se o Pacman comeu algum alimento
     updateGhosts(); // Atualiza o movimento dos fantasmas
