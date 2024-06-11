@@ -25,8 +25,8 @@ let ghostImageLocations = [
 ];
 
 // Variáveis do jogo
-let lives = 1; // Vidas iniciais do jogador
-let ghostCount = 1; // Número de fantasmas no jogo
+let lives = 3; // Vidas iniciais do jogador
+let ghostCount = 4; // Número de fantasmas no jogo
 let score = 0; // Pontuação do jogador
 let fps = 30; // Taxa de quadros por segundo
 let oneBlockSize = 20; // Tamanho de cada bloco no labirinto
@@ -257,7 +257,7 @@ let drawFoods = () => {
           i * oneBlockSize + oneBlockSize / 3,
           oneBlockSize / 3,
           oneBlockSize / 3,
-          "#FEB897"
+          "#FFFFFF"
         );
       }
     }
@@ -267,7 +267,7 @@ let drawFoods = () => {
 // Função para desenhar o caminho do Fantasma até o Pacman
 let drawPath = () => {
   // Lista de cores para os fantasmas
-  let colors = ["red", "blue", "green", "purple"];
+  let colors = ["red", "orange", "pink", "cyan"];
   let offsets = [
     { x: 3, y: 3 },
     { x: -3, y: 3 },
