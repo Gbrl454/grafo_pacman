@@ -26,7 +26,7 @@ let ghostImageLocations = [
 
 // Variáveis do jogo
 let lives = 1; // Vidas iniciais do jogador
-let ghostCount = 4; // Número de fantasmas no jogo
+let ghostCount = 1; // Número de fantasmas no jogo
 let score = 0; // Pontuação do jogador
 let fps = 30; // Taxa de quadros por segundo
 let oneBlockSize = 20; // Tamanho de cada bloco no labirinto
@@ -266,40 +266,42 @@ let drawFoods = () => {
 
 // Função para desenhar o caminho do Fantasma até o Pacman
 let drawPath = () => {
-  canvasContext.strokeStyle = "red";
-  canvasContext.lineWidth = 2;
-  canvasContext.beginPath();
+  // Lista de cores para os fantasmas
+  let colors = ["red", "blue", "green", "purple"];
+  let offsets = [
+    { x: 3, y: 3 },
+    { x: -3, y: 3 },
+    { x: 3, y: -3 },
+    { x: -3, y: -3 }
+  ];
 
-  for (let pos of ghosts[0].path) {
-    switch (ghosts[0].path) {
-      case 4: // Direita
-        pos.x = pos.x * 20 + oneBlockSize;
-        break;
-      case 3: // Cima
-        pos.y = pos.y * 20 - oneBlockSize;
-        break;
-      case 2: // Esquerda
-        pos.x = pos.x * 20 - oneBlockSize;
-        break;
-      case 1: // Baixo
-        pos.y = pos.y * 20 + oneBlockSize;
-        break;
+  ghosts.forEach((ghost, index) => {
+    // Seleciona a cor e o deslocamento com base no índice do fantasma
+    let color = colors[index % colors.length];
+    let offset = offsets[index % offsets.length];
+
+    canvasContext.strokeStyle = color;
+    canvasContext.lineWidth = 2;
+
+    // Desenha o caminho
+    canvasContext.beginPath();
+    canvasContext.moveTo(
+      ghost.x + oneBlockSize / 2 + offset.x,
+      ghost.y + oneBlockSize / 2 + offset.y
+    );
+
+    for (let pos of ghost.path) {
+      let x = pos.x * oneBlockSize + oneBlockSize / 2 + offset.x;
+      let y = pos.y * oneBlockSize + oneBlockSize / 2 + offset.y;
+      canvasContext.lineTo(x, y);
     }
-  }
-  canvasContext.moveTo(
-    ghosts[0].x + oneBlockSize / 2,
-    ghosts[0].y + oneBlockSize / 2
-  );
-  for (let pos of ghosts[0].path) {
-    let x = pos.x * oneBlockSize + oneBlockSize / 2;
-    let y = pos.y * oneBlockSize + oneBlockSize / 2;
-    canvasContext.lineTo(x, y);
-  }
-  canvasContext.lineTo(
-    pacman.x + oneBlockSize / 2,
-    pacman.y + oneBlockSize / 2
-  );
-  canvasContext.stroke();
+
+    canvasContext.lineTo(
+      pacman.x + oneBlockSize / 2 + offset.x,
+      pacman.y + oneBlockSize / 2 + offset.y
+    );
+    canvasContext.stroke();
+  });
 };
 
 // Função para desenhar as vidas restantes do jogador
